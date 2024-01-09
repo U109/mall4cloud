@@ -4,13 +4,14 @@ package com.mall4j.cloud.api.dto;
 import com.mall4j.cloud.common.util.PrincipalUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+
 import java.util.Arrays;
 
 /**
  * @author FrozenWatermelon
  * @date 2020/11/16
  */
-public class EsPageDTO{
+public class EsPageDTO {
 
     public static final String ASC = "ASC";
 
@@ -25,17 +26,17 @@ public class EsPageDTO{
      * 当前页
      */
     @NotNull(message = "pageNum 不能为空")
-    @Schema(description = "当前页" , requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "当前页", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer pageNum;
 
     @NotNull(message = "pageSize 不能为空")
-    @Schema(description = "每页大小" , requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "每页大小", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer pageSize;
 
-    @Schema(description = "排序字段数组，用逗号分割" )
+    @Schema(description = "排序字段数组，用逗号分割")
     private String[] columns;
 
-    @Schema(description = "排序字段方式，用逗号分割，ASC正序，DESC倒序" )
+    @Schema(description = "排序字段方式，用逗号分割，ASC正序，DESC倒序")
     private String[] orders;
 
     public Integer getPageNum() {
@@ -96,7 +97,7 @@ public class EsPageDTO{
                 if (!(order.equals(ASC) || order.equals(DESC))) {
                     throw new IllegalArgumentException("非法的排序策略：" + column);
                 }
-            }else {
+            } else {
                 order = ASC;
             }
 
@@ -128,7 +129,6 @@ public class EsPageDTO{
         }
         return stringBuilder.toString();
     }
-
 
 
     @Override

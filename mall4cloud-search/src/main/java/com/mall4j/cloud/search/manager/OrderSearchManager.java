@@ -81,9 +81,10 @@ public class OrderSearchManager {
 
         //1、返回的所有查询到的商品
         SearchHits hits = response.getHits();
-        List<EsOrderVO> productSearchs = getEsOrderBOList(response);
-        esPageVO.setList(productSearchs);
 
+        List<EsOrderVO> productSearchs = getEsOrderBOList(response);
+
+        esPageVO.setList(productSearchs);
 
         //===============分页信息====================//
         //总记录数
@@ -158,8 +159,6 @@ public class OrderSearchManager {
     private void keywordSearch(OrderSearchDTO param, BoolQueryBuilder boolQueryBuilder) {
 
         // 创建查询语句 ES中must和should不能同时使用 同时使用should失效 嵌套多个must 将should条件拼接在一个must中即可
-
-
         BoolQueryBuilder keywordShouldQuery = QueryBuilders.boolQuery();
 
         // 订单id

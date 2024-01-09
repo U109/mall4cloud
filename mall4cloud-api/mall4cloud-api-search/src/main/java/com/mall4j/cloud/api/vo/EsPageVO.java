@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class EsPageVO<T> {
 
-    @Schema(description = "总页数" )
+    @Schema(description = "总页数")
     private Integer pages;
 
-    @Schema(description = "总条目数" )
+    @Schema(description = "总条目数")
     private Long total;
 
-    @Schema(description = "结果集" )
+    @Schema(description = "结果集")
     private List<T> list;
 
     public Integer getPages() {

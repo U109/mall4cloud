@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     @GlobalTransactional(rollbackFor = Exception.class)
-    public List<Long>  submit(Long userId, ShopCartOrderMergerVO mergerOrder) {
+    public List<Long> submit(Long userId, ShopCartOrderMergerVO mergerOrder) {
         List<Order> orders = saveOrder(userId, mergerOrder);
         List<Long> orderIds = new ArrayList<>();
         List<SkuStockLockDTO> skuStockLocks = new ArrayList<>();
@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
         }
         // 发送消息，如果三十分钟后没有支付，则取消订单
         SendStatus sendStatus = orderCancelTemplate.syncSend(RocketMqConstant.ORDER_CANCEL_TOPIC, new GenericMessage<>(orderIds), RocketMqConstant.TIMEOUT, RocketMqConstant.CANCEL_ORDER_DELAY_LEVEL).getSendStatus();
-        if (!Objects.equals(sendStatus,SendStatus.SEND_OK)) {
+        if (!Objects.equals(sendStatus, SendStatus.SEND_OK)) {
             // 消息发不出去就抛异常，发的出去无所谓
             throw new Mall4cloudException(ResponseEnum.EXCEPTION);
         }
@@ -158,7 +158,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderStatusBO> ordersStatus = orderMapper.getOrdersStatus(orderIds);
         List<Long> cancelOrderIds = new ArrayList<>();
         for (OrderStatusBO orderStatusBO : ordersStatus) {
-            if (orderStatusBO.getStatus() != null || !Objects.equals(orderStatusBO.getStatus(), OrderStatus.CLOSE.value()))  {
+            if (orderStatusBO.getStatus() != null || !Objects.equals(orderStatusBO.getStatus(), OrderStatus.CLOSE.value())) {
                 cancelOrderIds.add(orderStatusBO.getOrderId());
             }
         }
@@ -168,7 +168,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.cancelOrders(cancelOrderIds);
         // 解锁库存状态
         SendStatus stockSendStatus = stockMqTemplate.syncSend(RocketMqConstant.STOCK_UNLOCK_TOPIC, new GenericMessage<>(orderIds)).getSendStatus();
-        if (!Objects.equals(stockSendStatus,SendStatus.SEND_OK)) {
+        if (!Objects.equals(stockSendStatus, SendStatus.SEND_OK)) {
             // 消息发不出去就抛异常，发的出去无所谓
             throw new Mall4cloudException(ResponseEnum.EXCEPTION);
         }
@@ -223,7 +223,6 @@ public class OrderServiceImpl implements OrderService {
         //无需物流
         order.setDeliveryType(DeliveryType.NOT_DELIVERY.value());
         orderMapper.update(order);
-
     }
 
     @Override
@@ -251,7 +250,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = new ArrayList<>();
         List<OrderItem> orderItems = new ArrayList<>();
         List<Long> shopCartItemIds = new ArrayList<>();
-        if(CollectionUtil.isNotEmpty(shopCartOrders)) {
+        if (CollectionUtil.isNotEmpty(shopCartOrders)) {
             // 每个店铺生成一个订单
             for (ShopCartOrderVO shopCartOrderDto : shopCartOrders) {
                 Order order = getOrder(userId, mergerOrder.getDvyType(), shopCartOrderDto);

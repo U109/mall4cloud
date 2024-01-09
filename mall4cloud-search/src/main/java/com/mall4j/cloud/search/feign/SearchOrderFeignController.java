@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 商品搜索feign连接
+ *
  * @author YXF
  * @date 2020/12/07
  */
@@ -30,4 +31,5 @@ public class SearchOrderFeignController implements SearchOrderFeignClient {
         pageDTO.setPageSize(orderSearch.getPageSize());
         return ServerResponseEntity.success(orderSearchManager.pageSearchResult(pageDTO, orderSearch));
     }
+
 }

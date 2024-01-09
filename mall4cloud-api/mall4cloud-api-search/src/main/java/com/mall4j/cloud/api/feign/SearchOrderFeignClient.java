@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 订单搜索
+ *
  * @author FrozenWatermelon
  * @date 2021/02/05
  */
-@FeignClient(value = "mall4cloud-search",contextId = "searchOrder")
+@FeignClient(value = "mall4cloud-search", contextId = "searchOrder")
 public interface SearchOrderFeignClient {
 
 
     /**
      * 订单搜索
+     *
      * @param orderSearch 订单搜索参数
      * @return 订单列表
      */

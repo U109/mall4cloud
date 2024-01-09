@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.Objects;
 
 /**
@@ -38,12 +39,12 @@ public class OrderController {
     private OrderService orderService;
 
 
-
     @Autowired
     private SearchOrderFeignClient searchOrderFeignClient;
 
     @Autowired
     private OrderAddrService orderAddrService;
+
     /**
      * 分页获取
      */
@@ -69,6 +70,7 @@ public class OrderController {
         OrderVO orderVO = BeanUtil.map(order, OrderVO.class);
         return ServerResponseEntity.success(orderVO);
     }
+
     /**
      * 获取订单用户下单地址
      */
@@ -102,7 +104,7 @@ public class OrderController {
     public ServerResponseEntity<Void> delivery(@Valid @RequestBody DeliveryOrderDTO deliveryOrderParam) {
         OrderVO order = orderService.getOrderByOrderId(deliveryOrderParam.getOrderId());
         // 订单不在支付状态
-        if (!Objects.equals(order.getStatus(), OrderStatus.PADYED.value())){
+        if (!Objects.equals(order.getStatus(), OrderStatus.PADYED.value())) {
             return ServerResponseEntity.fail(ResponseEnum.ORDER_NOT_PAYED);
         }
         orderService.delivery(deliveryOrderParam);
